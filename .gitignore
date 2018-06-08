@@ -1,0 +1,13 @@
+# JetBrains project files
+.idea
+
+# NPM
+node_modules
+.package-lock.json
+
+# NativeScript application
+/.cloud
+/dist
+/platforms
+/hooks
+/report
