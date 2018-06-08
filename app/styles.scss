@@ -1,7 +1,15 @@
-// NativeScript core theme
-// @see https://docs.nativescript.org/ui/theme
-@import '../node_modules/nativescript-theme-core/scss/skins/light/index';
-@import '../node_modules/nativescript-theme-core/scss/index';
+// Import app variables
+@import 'app-variables';
 
-// Global SCSS styling
-// @see https://docs.nativescript.org/ui/styling
+// Import the theme’s main ruleset - both index and platform specific.
+@import '~nativescript-theme-core/scss/index';
+@import '~nativescript-theme-core/scss/platforms/index.android';
+
+// Import common styles
+@import 'app-common';
+
+// Place any CSS rules you want to apply only on Android here
+.action-item {
+    padding-right: 10;
+    height: 100%;
+}
