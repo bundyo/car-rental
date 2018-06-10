@@ -14,61 +14,60 @@
             http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/ListView/getting-started
             This component is used to display the master list in the master-detail structure.
             -->
-            <ListView for="item in store.cars" @itemTap="onItemTap">
-              <v-template>
-                  <StackLayout class="list-group-item">
 
-                      <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
-                          <Label :text="item.name" class="text-primary font-weight-bold"/>
-                          <Label col="1" horizontalAlignment="right" class="list-group-item-text m-r-5">
-                              <FormattedString>
-                                  <Span text="€"/>
-                                  <Span :text="item.price"/>
-                                  <Span text="/day"/>
-                              </FormattedString>
-                          </Label>
 
-                          <StackLayout row="1" class="hr-light m-t-5 m-b-5" colSpan="2"/>
+            <!--<lv:RadListView.itemTemplate>-->
+            <!--</lv:RadListView.itemTemplate>-->
 
-                          <Image row="2" :src="item.imageUrl" stretch="aspectFill" height="120" class="m-r-20"/>
+            <ListView v-if="!isLoading" for="item in store.cars" @itemTap="onItemTap">
+            <!--<RadListView v-if="!isLoading" for="item in store.cars" @itemTap="onItemTap" class="list-group">-->
+                <!--<ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>-->
+                <v-template>
+                    <StackLayout class="list-group-item">
 
-                          <StackLayout row="2" col="1" verticalAlignment="center" class="list-group-item-text">
-                              <Label class="p-b-10">
-                                  <FormattedString ios:fontFamily="system">
-                                      <Span text="&#xf1b9;   " class="fa text-primary"/>
-                                      <Span :text="item.class"/>
-                                  </FormattedString>
-                              </Label>
-                              <Label class="p-b-10">
-                                  <FormattedString ios:fontFamily="system">
-                                      <Span text="&#xf085;   " class="fa text-primary"/>
-                                      <Span :text="item.transmission"/>
-                                      <Span text=" Transmission"/>
-                                  </FormattedString>
-                              </Label>
-                              <Label class="p-b-10">
-                                  <FormattedString ios:fontFamily="system">
-                                      <Span text="&#xf2dc;   " class="fa text-primary"/>
-                                      <Span :text="item.hasAC ? 'Yes' : 'No'"/>
-                                  </FormattedString>
-                              </Label>
-                          </StackLayout>
-                      </GridLayout>
+                        <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
+                            <Label :text="item.name" class="text-primary font-weight-bold"/>
+                            <Label col="1" horizontalAlignment="right" class="list-group-item-text m-r-5">
+                                <FormattedString>
+                                    <Span text="€"/>
+                                    <Span :text="item.price"/>
+                                    <Span text="/day"/>
+                                </FormattedString>
+                            </Label>
 
-                  </StackLayout>
-              </v-template>
+                            <StackLayout row="1" class="hr-light m-t-5 m-b-5" colSpan="2"/>
+
+                            <!--<Label row="2" :text="item.imageUrl" class="text-primary font-weight-bold"/>-->
+                            <Image row="2" :src="item.imageUrl" stretch="aspectFill" height="120" class="m-r-20" loadMode="async"/>
+
+                            <StackLayout row="2" col="1" verticalAlignment="center" class="list-group-item-text">
+                                <Label class="p-b-10">
+                                    <FormattedString ios:fontFamily="system">
+                                        <Span text="   " class="fa text-primary"></Span>
+                                        <Span :text="item.class"/>
+                                    </FormattedString>
+                                </Label>
+                                <Label class="p-b-10">
+                                    <FormattedString ios:fontFamily="system">
+                                        <Span text="   " class="fa text-primary"/>
+                                        <Span :text="item.transmission"/>
+                                        <Span text=" Transmission"/>
+                                    </FormattedString>
+                                </Label>
+                                <Label class="p-b-10">
+                                    <FormattedString ios:fontFamily="system">
+                                        <Span text="   " class="fa text-primary"/>
+                                        <Span :text="item.hasAC ? 'Yes' : 'No'"/>
+                                    </FormattedString>
+                                </Label>
+                            </StackLayout>
+                        </GridLayout>
+
+                    </StackLayout>
+                </v-template>
+            <!--</RadListView>-->
             </ListView>
-
-            <!--<lv:RadListView items="{{ store.cars }}" itemTap="onCarItemTap" class="list-group">-->
-                <!--<lv:RadListView.listViewLayout>-->
-                    <!--<lv:ListViewLinearLayout scrollDirection="Vertical"/>-->
-                <!--</lv:RadListView.listViewLayout>-->
-
-                <!--<lv:RadListView.itemTemplate>-->
-                <!--</lv:RadListView.itemTemplate>-->
-            <!--</lv:RadListView>-->
-
-            <ActivityIndicator :busy="isLoading"/>
+            <ActivityIndicator v-else :busy="isLoading"/>
         </GridLayout>
     </Page>
 </template>
@@ -77,11 +76,16 @@
     export default {
         data() {
             return {
-                isLoading: false,
             };
         },
 
-        inject: [ "store" ],
+        inject: ["store"],
+
+        computed: {
+            isLoading() {
+                return !this.store.cars.length;
+            }
+        },
 
         methods: {
             onItemTap() {
