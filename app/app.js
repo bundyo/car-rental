@@ -2,38 +2,45 @@
 // Can be moved to webpack config once upgraded to 4.x
 import "./vendor";
 import "./styles.scss";
-
-import Vue from "nativescript-vue";
-
-Vue.component("RadListView", require("./shared/RadListView"));
+//import Frame from "tns-core-modules/ui/frame";
 
 import firebase from "nativescript-plugin-firebase";
 import config from "./shared/firebase-config";
 
-import cars from "./shared/cars/car-service";
+import Vue from "nativescript-vue";
+import router from "./shared/router";
 
-import CarList from "./components/CarList";
+// router.history.listen((route) => {
+//
+// });
 
 // Uncommment the following to see NativeScript-Vue output logs
 Vue.config.silent = false;
+Vue.config.debug = true;
+
+//Vue.component("RadListView", import("./shared/RadListView"));
+
+Vue.registerElement(
+  'Frame',
+  () => require("tns-core-modules/ui/frame").Frame
+);
+
+import cars from "./shared/cars/car-service";
 
 new Vue({
 
-    render: h => h(CarList),
+    template: `
+<Frame>
+    <transition :name="transitionName">
+        <router-view></router-view>
+    </transition>
+</Frame>`,
+
+    router,
 
     data: {
-        cars: []
-    },
-
-    provide() {
-        const store = {};
-
-        Object.defineProperty(store, "cars", {
-           enumerable: true,
-           get: () => this.cars,
-        });
-
-        return { store };
+        cars: [],
+        transitionName: "slide-right"
     },
 
     created() {

@@ -2,24 +2,11 @@
     <Page class="page" xmlns="http://schemas.nativescript.org/tns.xsd">
 
         <ActionBar class="action-bar">
-            <!-- Should remove the navigation button -->
-            <!--<NavigationButton ios:visibility="collapsed"/>-->
             <Label class="action-bar-title" text="Browse" horizontalAlignment="center"/>
         </ActionBar>
 
         <GridLayout class="page-content">
-            <!--
-            RadListView is a UI component part of the Progress NativeScript UI set of components.
-            Learn more about the RadListView UI component and how it can be customized in this documentation article:
-            http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/ListView/getting-started
-            This component is used to display the master list in the master-detail structure.
-            -->
-
-
-            <!--<lv:RadListView.itemTemplate>-->
-            <!--</lv:RadListView.itemTemplate>-->
-
-            <ListView v-if="!isLoading" for="item in store.cars" @itemTap="onItemTap">
+            <ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">
             <!--<RadListView v-if="!isLoading" for="item in store.cars" @itemTap="onItemTap" class="list-group">-->
                 <!--<ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>-->
                 <v-template>
@@ -79,17 +66,19 @@
             };
         },
 
-        inject: ["store"],
-
         computed: {
+            cars() {
+                return this.$router.app && this.$router.app.cars || [];
+            },
+
             isLoading() {
-                return !this.store.cars.length;
+                return !this.cars.length;
             }
         },
 
         methods: {
-            onItemTap() {
-
+            onItemTap(e) {
+                this.$router.push({ name: "car-details", params: { car: e.item } });
             }
         },
 
