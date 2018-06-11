@@ -49,15 +49,9 @@
 
 <script>
     export default {
-        props: {
-            car: {
-                type: Object,
-                default: () => ({})
-            }
-        },
-
         data() {
             return {
+                car: {}
             };
         },
 
@@ -68,6 +62,13 @@
 
             isLoading() {
                 return !this.cars.length;
+            }
+        },
+
+        watch: {
+             $route(route) {
+                console.log(route);
+                this.car = route.params.car;
             }
         },
 

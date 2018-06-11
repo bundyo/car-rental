@@ -7,8 +7,7 @@ import CarList from "../components/CarList";
 import CarDetails from "../components/CarDetails";
 
 const router = new VueRouter({
-    //pageRouting: true,
-    mode: "abstract",
+    pageRouting: true,
     routes: [
         {
             name: "car-list",
@@ -20,12 +19,8 @@ const router = new VueRouter({
         },
         {
             name: "car-details",
-            path: "/car-details/:car",
+            path: "/car-details",
             component: CarDetails,
-            props: (route) => {
-                console.log(route.query, route.params);
-
-            },
             meta: {
                 title: "Car Details",
             },
@@ -33,8 +28,6 @@ const router = new VueRouter({
         {path: "*", redirect: "/car-list"},
     ],
 });
-
-//router.setPageTransition("slide")
 
 router.replace("car-list");
 

@@ -10,40 +10,25 @@ import config from "./shared/firebase-config";
 import Vue from "nativescript-vue";
 import router from "./shared/router";
 
-// router.history.listen((route) => {
-//
-// });
-
 // Uncommment the following to see NativeScript-Vue output logs
 Vue.config.silent = false;
 Vue.config.debug = true;
 
 //Vue.component("RadListView", import("./shared/RadListView"));
 
-Vue.registerElement(
-  'Frame',
-  () => require("tns-core-modules/ui/frame").Frame
-);
-
 import cars from "./shared/cars/car-service";
 
 new Vue({
 
-    template: `
-<Frame>
-    <transition :name="transitionName">
-        <router-view></router-view>
-    </transition>
-</Frame>`,
-
     router,
 
     data: {
-        cars: [],
-        transitionName: "slide-right"
+        cars: []
     },
 
     created() {
+        this.$router.setPageTransition("slide");
+
         firebase.init(config).then(
             instance => {
                 console.log("firebase.init done");
