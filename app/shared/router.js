@@ -7,10 +7,8 @@ import CarList from "../components/CarList";
 import CarDetails from "../components/CarDetails";
 
 const router = new VueRouter({
-    pageRouting: true,
     routes: [
         {
-            name: "car-list",
             path: "/car-list",
             component: CarList,
             meta: {
@@ -18,8 +16,7 @@ const router = new VueRouter({
             },
         },
         {
-            name: "car-details",
-            path: "/car-details",
+            path: "/car-details/:id",
             component: CarDetails,
             meta: {
                 title: "Car Details",
@@ -29,6 +26,6 @@ const router = new VueRouter({
     ],
 });
 
-router.replace("car-list");
+router.push("/car-list");
 
 export default router;

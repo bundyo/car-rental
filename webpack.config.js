@@ -1,5 +1,6 @@
 const { relative, resolve, sep } = require("path");
 
+const path = require("path");
 const webpack = require("webpack");
 const winston = require('winston-color');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -122,11 +123,11 @@ module.exports = env => {
             ],
             // Resolve {N} system modules from tns-core-modules
             modules: [
-                "node_modules/tns-core-modules",
-                "node_modules",
+                path.resolve(__dirname, "node_modules/tns-core-modules"),
+                path.resolve(__dirname, "node_modules")
             ],
             alias: {
-                '~': appFullPath
+                '~': appFullPath,
             },
             // don't resolve symlinks to symlinked modules
             symlinks: false
@@ -143,7 +144,7 @@ module.exports = env => {
             "fs": "empty",
             //"__dirname": false,
         },
-        devtool: "none",
+        devtool: "eval",
         // optimization:  {
         //     splitChunks: {
         //         cacheGroups: {

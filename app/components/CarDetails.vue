@@ -1,14 +1,5 @@
 <template>
-    <Page class="page" xmlns="http://schemas.nativescript.org/tns.xsd">
-
-        <ActionBar class="action-bar">
-            <NavigationButton @tap="$router.back()" android.systemIcon="ic_menu_back" />
-            <Label class="action-bar-title" :text="car.name" horizontalAlignment="center" />
-            <ActionItem tap="onEditButtonTap" ios.position="right" android.position="right">
-                <Label text="Edit" verticalAlignment="center" class="action-item" />
-            </ActionItem>
-        </ActionBar>
-
+    <Page>
         <GridLayout class="page-content">
             <ScrollView>
                 <GridLayout rows="auto, auto, auto">
@@ -51,24 +42,20 @@
     export default {
         data() {
             return {
-                car: {}
             };
         },
 
         computed: {
+            car() {
+                return this.cars.find( car => car.name === this.$route.params.id );``
+            },
+
             cars() {
                 return this.$router.app && this.$router.app.cars || [];
             },
 
             isLoading() {
                 return !this.cars.length;
-            }
-        },
-
-        watch: {
-             $route(route) {
-                console.log(route);
-                this.car = route.params.car;
             }
         },
 

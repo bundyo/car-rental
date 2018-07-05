@@ -1,10 +1,5 @@
 <template>
-    <Page class="page" xmlns="http://schemas.nativescript.org/tns.xsd">
-
-        <ActionBar class="action-bar">
-            <Label class="action-bar-title" text="Browse" horizontalAlignment="center"/>
-        </ActionBar>
-
+    <Page>
         <GridLayout class="page-content">
             <ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">
             <!--<RadListView v-if="!isLoading" for="item in store.cars" @itemTap="onItemTap" class="list-group">-->
@@ -78,7 +73,7 @@
 
         methods: {
             onItemTap(e) {
-                this.$router.push({ name: "car-details", params: { car: e.item } });
+                this.$router.push(`/car-details/${e.item.name}`);
             }
         },
 
