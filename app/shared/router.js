@@ -7,9 +7,10 @@ import CarList from "../components/CarList";
 import CarDetails from "../components/CarDetails";
 
 const router = new VueRouter({
+    mode: "abstract",
     routes: [
         {
-            path: "/car-list",
+            path: "/",
             component: CarList,
             meta: {
                 title: "Car List",
@@ -22,10 +23,10 @@ const router = new VueRouter({
                 title: "Car Details",
             },
         },
-        {path: "*", redirect: "/car-list"},
+        {path: "*", redirect: "/"},
     ],
 });
 
-router.push("/car-list");
+router.push("/");
 
 export default router;

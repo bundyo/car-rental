@@ -21,20 +21,25 @@ new Vue({
 
     router,
 
+    // TODO: Look why v-if doesn't work in the ActionBar
     template: `
-<Page class="page" xmlns="http://schemas.nativescript.org/tns.xsd">
-    <ActionBar class="action-bar">
-        <NavigationButton @tap="$router.back()" android.systemIcon="ic_menu_back" />
-        <Label class="action-bar-title" text="Browse" horizontalAlignment="center" />
-        <ActionItem tap="onEditButtonTap" ios.position="right" android.position="right">
-            <Label text="Edit" verticalAlignment="center" class="action-item" />
-        </ActionItem>
-    </ActionBar>
-
-    <Frame>
-         <router-view />
-    </Frame>
-</Page>`,
+<Frame>
+    <Page class="page" xmlns="http://schemas.nativescript.org/tns.xsd">
+        <ActionBar class="action-bar">
+            <NavigationButton v-show="$route && $route.path !== '/'" @tap="$router.back()" android.systemIcon="ic_menu_back" />
+            <Label class="action-bar-title" text="Browse" horizontalAlignment="center" />
+            <ActionItem tap="onEditButtonTap" ios.position="right" android.position="right">
+                <Label text="Edit" verticalAlignment="center" class="action-item" />
+            </ActionItem>
+        </ActionBar>
+    
+        <Frame>
+            <transition name="fade">
+                <router-view actionBarHidden="true"/>
+            </transition>
+        </Frame>
+    </Page>
+</Frame>`,
 
     data: {
         cars: []

@@ -144,7 +144,7 @@ module.exports = env => {
             "fs": "empty",
             //"__dirname": false,
         },
-        devtool: "eval",
+        devtool: "eval-source-map",
         // optimization:  {
         //     splitChunks: {
         //         cacheGroups: {
