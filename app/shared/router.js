@@ -7,7 +7,6 @@ import CarList from "../components/CarList";
 import CarDetails from "../components/CarDetails";
 
 const router = new VueRouter({
-    mode: "abstract",
     routes: [
         {
             path: "/",

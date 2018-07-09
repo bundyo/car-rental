@@ -6,7 +6,6 @@ const winston = require('winston-color');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const NativeScriptVueExternals = require('nativescript-vue-externals');
 const NativeScriptVueTarget = require('nativescript-vue-target');
 
 const nsWebpack = require("nativescript-dev-webpack");
@@ -127,7 +126,7 @@ module.exports = env => {
                 path.resolve(__dirname, "node_modules")
             ],
             alias: {
-                '~': appFullPath,
+                '~': appFullPath
             },
             // don't resolve symlinks to symlinked modules
             symlinks: false
@@ -144,7 +143,7 @@ module.exports = env => {
             "fs": "empty",
             //"__dirname": false,
         },
-        devtool: "eval-source-map",
+        devtool: "none",
         // optimization:  {
         //     splitChunks: {
         //         cacheGroups: {
@@ -225,8 +224,6 @@ module.exports = env => {
                 },
             ],
         },
-
-        //externals: NativeScriptVueExternals,
 
         plugins: [
 

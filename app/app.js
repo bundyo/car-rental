@@ -24,7 +24,7 @@ new Vue({
     // TODO: Look why v-if doesn't work in the ActionBar
     template: `
 <Frame>
-    <Page class="page" xmlns="http://schemas.nativescript.org/tns.xsd">
+    <Page class="page">
         <ActionBar class="action-bar">
             <NavigationButton v-show="$route && $route.path !== '/'" @tap="$router.back()" android.systemIcon="ic_menu_back" />
             <Label class="action-bar-title" text="Browse" horizontalAlignment="center" />
@@ -33,10 +33,8 @@ new Vue({
             </ActionItem>
         </ActionBar>
     
-        <Frame>
-            <transition name="fade">
-                <router-view actionBarHidden="true"/>
-            </transition>
+        <Frame transition="explode">
+            <router-view actionBarHidden="true"/>
         </Frame>
     </Page>
 </Frame>`,
