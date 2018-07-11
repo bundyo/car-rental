@@ -1,9 +1,9 @@
 <template>
     <Page>
         <GridLayout class="page-content">
-            <ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">
-            <!--<RadListView v-if="!isLoading" for="item in store.cars" @itemTap="onItemTap" class="list-group">-->
-                <!--<ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>-->
+            <!--<ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">-->
+            <RadListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap" class="list-group">
+                <ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>
                 <v-template>
                     <StackLayout class="list-group-item">
 
@@ -47,8 +47,8 @@
 
                     </StackLayout>
                 </v-template>
-            <!--</RadListView>-->
-            </ListView>
+            </RadListView>
+            <!--</ListView>-->
             <ActivityIndicator v-else :busy="isLoading"/>
         </GridLayout>
     </Page>

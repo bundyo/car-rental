@@ -13,9 +13,17 @@ import router from "./shared/router";
 Vue.config.silent = false;
 Vue.config.debug = true;
 
-//Vue.component("RadListView", import("./shared/RadListView"));
+import "./shared/RadListView";
 
 import cars from "./shared/cars/car-service";
+
+import { android } from 'tns-core-modules/application'
+
+android.on("activityBackPressed", function (args) {
+ args.cancel = true;
+
+ router.back();
+});
 
 new Vue({
 

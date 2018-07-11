@@ -1,19 +1,7 @@
 const Vue = require("nativescript-vue");
 
-Vue.registerElement("NativeRadListView", () => require("nativescript-ui-listview").RadListView);
-Vue.registerElement("ListViewLinearLayout", () => require("nativescript-ui-listview").ListViewLinearLayout);
-Vue.registerElement("ListViewGridLayout", () => require("nativescript-ui-listview").ListViewGridLayout);
-
-Vue.directive("tkListViewLayout", {
-    inserted: function (el) {
-        el.parentNode._nativeView.listViewLayout = el._nativeView;
-    }
-});
-
-const VUE_VIEW = "__vueVNodeRef__";
-
-module.exports = {
-    name: "rad-list-view",
+const component = {
+    name: "RadListView",
     props: {
         items: {
             type: [Array, Object],
@@ -28,22 +16,23 @@ module.exports = {
         }
     },
     template: `
-    <native-rad-list-view
-      ref="listView" 
+    <NativeRadListView
+      ref="radlistView"
+      :items="items"
       v-bind="$attrs"
-      v-on="listeners" 
+      v-on="listeners"
       @itemTap="onItemTap"
       @itemLoading="onItemLoading"
     >
       <slot />
-    </native-rad-list-view>
+    </NativeRadListView>
   `,
 
     watch: {
         items: {
             handler(newVal) {
-                this.$refs.listView.setAttribute("items", newVal);
-                this.$refs.listView.nativeView.refresh();
+                this.$refs.radlistView.setAttribute("items", newVal);
+                this.$refs.radlistView.nativeView.refresh();
             },
             deep: true
         }
@@ -61,19 +50,18 @@ module.exports = {
         this.getItemContext = (item, index) =>
             getItemContext(item, index, this.$props["+alias"], this.$props["+index"]);
 
-        this.$refs.listView.setAttribute("items", this.items);
-
-        this.$refs.listView.setAttribute(
+        this.$refs.radlistView.setAttribute("items", this.items);
+        this.$refs.radlistView.setAttribute(
             "_itemTemplatesInternal",
             this.$templates.getKeyedTemplates()
         );
 
-        this.$refs.listView.setAttribute("_itemTemplateSelector", (item, index) => {
+        this.$refs.radlistView.setAttribute("_itemTemplateSelector", (item, index) => {
             return this.$templates.selectorFn(this.getItemContext(item, index));
         });
 
         const availableTemplates = this.$templates.getAvailable();
-        this.$refs.listView.setAttribute("itemViewLoader", (itemType) => {
+        this.$refs.radlistView.setAttribute("itemViewLoader", (itemType) => {
             // todo add other itemTypes
             switch (itemType) {
                 case "itemview":
@@ -111,9 +99,33 @@ module.exports = {
             const oldVnode = args.view && args.view[VUE_VIEW];
 
             args.view = this.$templates.patchTemplate(name, context, oldVnode);
+        },
+        refresh() {
+          this.$refs.radlistView.nativeView.refresh()
         }
     }
 };
+
+Vue.registerElement(
+  'RadListView',
+  () => require('tns-core-modules/ui/list-view').ListView,
+  {
+    component
+  }
+);
+
+Vue.registerElement("ListViewLinearLayout", () => require("nativescript-ui-listview").ListViewLinearLayout);
+Vue.registerElement("ListViewGridLayout", () => require("nativescript-ui-listview").ListViewGridLayout);
+
+Vue.directive("tkListViewLayout", {
+    inserted: function (el) {
+        el.parentNode._nativeView.listViewLayout = el._nativeView;
+    }
+});
+
+const VUE_VIEW = "__vueVNodeRef__";
+
+module.exports = component;
 
 function getItemContext(item, index, alias, index_alias) {
     return {
