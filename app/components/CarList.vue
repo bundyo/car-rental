@@ -1,5 +1,5 @@
 <template>
-    <Page>
+    <Page class="page">
         <GridLayout class="page-content">
             <!--<ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">-->
             <RadListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap" class="list-group">

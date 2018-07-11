@@ -1,5 +1,5 @@
 <template>
-    <Page>
+    <Page class="page">
         <GridLayout class="page-content">
             <ScrollView>
                 <GridLayout rows="auto, auto, auto">
@@ -47,7 +47,7 @@
 
         computed: {
             car() {
-                return this.cars.find( car => car.name === this.$route.params.id );``
+                return this.$router.app && this.$router.app.car || {};
             },
 
             cars() {
@@ -59,7 +59,8 @@
             }
         },
 
-        created() {
+        mounted() {
+            this.$emit("select", this.car.name);
         },
 
         beforeDestroy() {
