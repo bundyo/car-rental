@@ -10,10 +10,10 @@ import Vue from "nativescript-vue";
 import router from "./shared/router";
 
 // Uncommment the following to see NativeScript-Vue output logs
-Vue.config.silent = false;
-Vue.config.debug = true;
+//Vue.config.silent = false;
+//Vue.config.debug = true;
 
-import "./shared/RadListView";
+//import "./shared/RadListView";
 
 import cars from "./shared/cars/car-service";
 
@@ -50,7 +50,7 @@ new Vue({
            </ActionItem>
         </ActionBar>
     
-        <Frame transition="explode">
+        <Frame>
             <router-view actionBarHidden="true"/>
         </Frame>
     </Page>
