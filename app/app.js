@@ -10,21 +10,21 @@ import Vue from "nativescript-vue";
 import router from "./shared/router";
 
 // Uncommment the following to see NativeScript-Vue output logs
-//Vue.config.silent = false;
-//Vue.config.debug = true;
+Vue.config.silent = false;
+Vue.config.debug = true;
 
 //import "./shared/RadListView";
 
 import cars from "./shared/cars/car-service";
 
-import { android, AndroidApplication } from 'tns-core-modules/application'
-
-android.on(AndroidApplication.activityBackPressedEvent, function (args) {
- args.cancel = true;
-
- router.back();
-});
-
+//import { android, AndroidApplication } from 'tns-core-modules/application'
+//
+//android.on(AndroidApplication.activityBackPressedEvent, function (args) {
+// args.cancel = true;
+//
+// router.back();
+//});
+//
 new Vue({
 
     router,
@@ -50,7 +50,7 @@ new Vue({
            </ActionItem>
         </ActionBar>
     
-        <Frame>
+        <Frame transition="slide">
             <router-view actionBarHidden="true"/>
         </Frame>
     </Page>

@@ -7,7 +7,7 @@
                     <TextField :text="car.name" hint="Car make field is required"
                         :class="{ [car.name]: true, [car.name ? 'car-list-even' : 'car-list-even invalid-text']: true }" />
 
-                    <GridLayout rows="*, 55, *" columns="*, auto" class="car-list-odd" >
+                    <GridLayout rows="*" columns="*, auto" class="car-list-odd" >
                         <Label text="PRICE PER DAY" />
                         <Label col="1" horizontalAlignment="right" class="text-primary car-list-price">
                             <FormattedString>
@@ -15,13 +15,10 @@
                                 <Span :text="car.price" />
                             </FormattedString>
                         </Label>
-
-                        <StackLayout row="1" colSpan="2" verticalAlignment="center">
-                            <Slider v-model="car.price" />
-                        </StackLayout>
-
-                        <Label text="ADD OR REMOVE IMAGE" row="2" colSpan="2" />
                     </GridLayout>
+
+                    <Slider v-model="car.price" height="70" verticalAlignment="center" class="car-list-even" />
+                    <Label text="ADD OR REMOVE IMAGE" row="2" colSpan="2" class="car-list-odd" />
 
                     <StackLayout class="car-list-even">
                         <GridLayout height="80" width="80" class="thumb" horizontalAlignment="left"
@@ -62,7 +59,7 @@
                         <Label text="&#xf054;" class="fa text-secondary" col="1" horizontalAlignment="center" verticalAlignment="center" />
                     </GridLayout>
 
-                    <GridLayout rows="*, 55" columns="*, auto" class="car-list-odd">
+                    <GridLayout columns="*, auto" class="car-list-odd">
                         <Label text="LUGGAGE" />
                         <Label col="1" horizontalAlignment="right" class="text-primary">
                             <FormattedString>
@@ -70,9 +67,9 @@
                                 <Span text=" Bag(s)" />
                             </FormattedString>
                         </Label>
-
-                        <Slider row="1" colSpan="2" minValue="0" maxValue="5" v-model="car.luggage" />
                     </GridLayout>
+
+                    <Slider minValue="0" maxValue="5" height="70" v-model="car.luggage" class="car-list-even" />
 
                 </StackLayout>
             </ScrollView>
