@@ -40,7 +40,7 @@ new Vue({
             <ActionItem v-show="routeName === 'car-details'" @tap="onEditButtonTap" ios.position="right" android.position="right">
                 <Label text="Edit" verticalAlignment="center" class="action-item" />
             </ActionItem>
-           <ActionItem v-show="routeName === 'car-details-edit'" @tap="onCancelButtonTap" ios.position="left" android.position="left">
+           <ActionItem v-show="routeName === 'car-details-edit'" @tap="$router.back()" ios.position="left" android.position="left">
                <Label text="Cancel" verticalAlignment="center" class="action-item" />
            </ActionItem>
            <ActionItem v-show="routeName === 'car-details-edit'" ios.position="right" android.position="right">
@@ -97,7 +97,14 @@ new Vue({
         },
 
         onEditButtonTap() {
-            this.$router.push(`/car-details-edit/${this.car.name}`);
+            this.$router.push(`/car-details-edit/${this.car.name}`, {
+                animated: true,
+                transition: {
+                    name: "slideUp",
+                    duration: 200,
+                    curve: "ease"
+                }
+            });
         }
     }
 
