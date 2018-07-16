@@ -1,5 +1,9 @@
 <template>
     <Page class="page">
+        <ActionBar class="action-bar">
+            <Label class="action-bar-title" :text="$route.meta.title" horizontalAlignment="center" />
+        </ActionBar>
+
         <GridLayout class="page-content">
             <ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">
             <!--<RadListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap" class="list-group">-->

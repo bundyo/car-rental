@@ -31,29 +31,8 @@ new Vue({
 
     // TODO: Look why v-if doesn't work in the ActionBar
     template: `
-<Frame>
-    <Page class="page">
-        <ActionBar class="action-bar">
-            <NavigationButton v-show="routeName !== 'root'" @tap="$router.back()" android.systemIcon="ic_menu_back" 
-                :visibility="routeName === 'car-details-edit' ? 'collapse' : 'visible'" />
-            <Label class="action-bar-title" :text="$route.meta.title" horizontalAlignment="center" />
-            <ActionItem v-show="routeName === 'car-details'" @tap="onEditButtonTap" ios.position="right" android.position="right">
-                <Label text="Edit" verticalAlignment="center" class="action-item" />
-            </ActionItem>
-           <ActionItem v-show="routeName === 'car-details-edit'" @tap="$router.back()" ios.position="left" android.position="left">
-               <Label text="Cancel" verticalAlignment="center" class="action-item" />
-           </ActionItem>
-           <ActionItem v-show="routeName === 'car-details-edit'" ios.position="right" android.position="right">
-               <Label text="Done" class="action-item" verticalAlignment="center" @tap="onDoneButtonTap"
-                   :isEnabled="car.isModelValid"
-                   :isUserInteractionEnabled="car.isModelValid" />
-           </ActionItem>
-        </ActionBar>
-    
-        <Frame transition="slide">
-            <router-view actionBarHidden="true"/>
-        </Frame>
-    </Page>
+<Frame transition="slide">
+    <router-view />
 </Frame>`,
 
     data: {
@@ -84,27 +63,6 @@ new Vue({
 
         car() {
             return this.$route.params.id ? this.cars.find( car => car.name === this.$route.params.id ) : {};
-        }
-    },
-
-    methods: {
-        onCancelButtonTap() {
-
-        },
-
-        onDoneButtonTap() {
-
-        },
-
-        onEditButtonTap() {
-            this.$router.push(`/car-details-edit/${this.car.name}`, {
-                animated: true,
-                transition: {
-                    name: "slideUp",
-                    duration: 200,
-                    curve: "ease"
-                }
-            });
         }
     }
 

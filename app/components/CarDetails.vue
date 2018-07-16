@@ -1,5 +1,13 @@
 <template>
     <Page class="page">
+        <ActionBar class="action-bar">
+            <NavigationButton @tap="$router.back()" android.systemIcon="ic_menu_back" />
+            <Label class="action-bar-title" :text="$route.meta.title" horizontalAlignment="center" />
+            <ActionItem @tap="onEditButtonTap" ios.position="right" android.position="right">
+                <Label text="Edit" verticalAlignment="center" class="action-item" />
+            </ActionItem>
+        </ActionBar>
+
         <GridLayout class="page-content">
             <ScrollView>
                 <GridLayout rows="auto, auto, auto">
@@ -56,6 +64,14 @@
 
             isLoading() {
                 return !this.cars.length;
+            }
+        },
+
+        methods: {
+            onEditButtonTap() {
+                this.$router.push(`/car-details-edit/${this.car.name}`, {
+                    transition: "slideTop"
+                });
             }
         },
 

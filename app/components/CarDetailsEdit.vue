@@ -1,5 +1,17 @@
 <template>
     <Page class="page">
+        <ActionBar class="action-bar">
+            <Label class="action-bar-title" :text="$route.meta.title" horizontalAlignment="center" />
+           <ActionItem @tap="onCancelButtonTap" ios.position="left" android.position="left">
+               <Label text="Cancel" verticalAlignment="center" class="action-item" />
+           </ActionItem>
+           <ActionItem ios.position="right" android.position="right">
+               <Label text="Done" class="action-item" verticalAlignment="center" @tap="onDoneButtonTap"
+                   :isEnabled="car.isModelValid"
+                   :isUserInteractionEnabled="car.isModelValid" />
+           </ActionItem>
+        </ActionBar>
+
         <GridLayout class="page-content">
             <ScrollView>
                 <StackLayout class="car-list">
@@ -102,6 +114,14 @@
             },
 
             onSelectorTap() {
+
+            },
+
+            onCancelButtonTap() {
+                this.$router.back();
+            },
+
+            onDoneButtonTap() {
 
             }
         },
