@@ -32,7 +32,7 @@ const component = {
         items: {
             handler(newVal) {
                 this.$refs.radlistView.setAttribute("items", newVal);
-                this.$refs.radlistView.nativeView.refresh();
+                this.refresh();
             },
             deep: true
         }

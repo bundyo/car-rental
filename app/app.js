@@ -13,7 +13,7 @@ import router from "./shared/router";
 Vue.config.silent = false;
 Vue.config.debug = true;
 
-//import "./shared/RadListView";
+import "./shared/RadListView";
 
 import cars from "./shared/cars/car-service";
 
@@ -32,10 +32,11 @@ new Vue({
     // TODO: Look why v-if doesn't work in the ActionBar
     template: `
 <Frame transition="slide">
-    <router-view />
+    <router-view @select="car = $event"/>
 </Frame>`,
 
     data: {
+        car: [],
         cars: []
     },
 
@@ -54,16 +55,5 @@ new Vue({
                 console.log(`firebase.init error: ${error}`);
             }
         );
-    },
-
-    computed: {
-        routeName() {
-            return (this.$route && this.$route.name) || "";
-        },
-
-        car() {
-            return this.$route.params.id ? this.cars.find( car => car.name === this.$route.params.id ) : {};
-        }
     }
-
 }).$start();

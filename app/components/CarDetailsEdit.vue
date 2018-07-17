@@ -1,7 +1,7 @@
 <template>
     <Page class="page">
         <ActionBar class="action-bar">
-            <Label class="action-bar-title" :text="$route.meta.title" horizontalAlignment="center" />
+            <Label class="action-bar-title" :text="'Edit ' + car.name" horizontalAlignment="center" />
            <ActionItem @tap="onCancelButtonTap" ios.position="left" android.position="left">
                <Label text="Cancel" verticalAlignment="center" class="action-item" />
            </ActionItem>

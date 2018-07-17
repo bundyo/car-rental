@@ -1,13 +1,13 @@
 <template>
     <Page class="page">
         <ActionBar class="action-bar">
-            <Label class="action-bar-title" :text="$route.meta.title" horizontalAlignment="center" />
+            <Label class="action-bar-title" text="Car List" horizontalAlignment="center" />
         </ActionBar>
 
         <GridLayout class="page-content">
-            <ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">
-            <!--<RadListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap" class="list-group">-->
-                <!--<ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>-->
+            <!--<ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">-->
+            <RadListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap" class="list-group">
+                <ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>
                 <v-template>
                     <StackLayout class="list-group-item">
 
@@ -51,8 +51,8 @@
 
                     </StackLayout>
                 </v-template>
-            <!--</RadListView>-->
-            </ListView>
+            </RadListView>
+            <!--</ListView>-->
             <ActivityIndicator v-else :busy="isLoading"/>
         </GridLayout>
     </Page>
@@ -60,11 +60,6 @@
 
 <script>
     export default {
-        data() {
-            return {
-            };
-        },
-
         computed: {
             cars() {
                 return this.$router.app && this.$router.app.cars || [];
@@ -77,6 +72,7 @@
 
         methods: {
             onItemTap(e) {
+                this.$emit("select", e.item);
                 this.$router.push(`/car-details/${e.item.name}`);
             }
         },

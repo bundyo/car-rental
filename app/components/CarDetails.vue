@@ -2,7 +2,7 @@
     <Page class="page">
         <ActionBar class="action-bar">
             <NavigationButton @tap="$router.back()" android.systemIcon="ic_menu_back" />
-            <Label class="action-bar-title" :text="$route.meta.title" horizontalAlignment="center" />
+            <Label class="action-bar-title" :text="car.name" horizontalAlignment="center" />
             <ActionItem @tap="onEditButtonTap" ios.position="right" android.position="right">
                 <Label text="Edit" verticalAlignment="center" class="action-item" />
             </ActionItem>
@@ -73,10 +73,6 @@
                     transition: "slideTop"
                 });
             }
-        },
-
-        mounted() {
-            this.$emit("select", this.car.name);
         },
 
         beforeDestroy() {
