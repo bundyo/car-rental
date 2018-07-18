@@ -19,7 +19,7 @@ const router = new VueRouter({
         },
         {
             name: "car-details",
-            path: "/car-details/:id",
+            path: "/car-details",
             component: CarDetails,
             meta: {
                 title: "Car Details",

@@ -4,57 +4,51 @@
             <Label class="action-bar-title" text="Car List" horizontalAlignment="center" />
         </ActionBar>
 
-        <GridLayout class="page-content">
-            <!--<ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">-->
-            <RadListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap" class="list-group">
-                <ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>
-                <v-template>
-                    <StackLayout class="list-group-item">
+        <!--<ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">-->
+        <RadListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap" class="list-group">
+            <ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>
+            <v-template>
+                <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
+                    <Label :text="item.name" class="text-primary font-weight-bold"/>
+                    <Label col="1" horizontalAlignment="right" class="list-group-item-text m-r-5">
+                        <FormattedString>
+                            <Span text.decode="&euro;"/>
+                            <Span :text="item.price"/>
+                            <Span text="/day"/>
+                        </FormattedString>
+                    </Label>
 
-                        <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
-                            <Label :text="item.name" class="text-primary font-weight-bold"/>
-                            <Label col="1" horizontalAlignment="right" class="list-group-item-text m-r-5">
-                                <FormattedString>
-                                    <Span text="€"/>
-                                    <Span :text="item.price"/>
-                                    <Span text="/day"/>
-                                </FormattedString>
-                            </Label>
+                    <Label row="1" class="hr-light m-t-5 m-b-5" colSpan="2"/>
 
-                            <StackLayout row="1" class="hr-light m-t-5 m-b-5" colSpan="2"/>
+                    <!--<Label row="2" :text="item.imageUrl" class="text-primary font-weight-bold"/>-->
+                    <Image row="2" :src="item.imageUrl" stretch="aspectFill" height="120" class="m-r-20" loadMode="async"/>
 
-                            <!--<Label row="2" :text="item.imageUrl" class="text-primary font-weight-bold"/>-->
-                            <Image row="2" :src="item.imageUrl" stretch="aspectFill" height="120" class="m-r-20" loadMode="async"/>
-
-                            <StackLayout row="2" col="1" verticalAlignment="center" class="list-group-item-text">
-                                <Label class="p-b-10">
-                                    <FormattedString ios:fontFamily="system">
-                                        <Span text="   " class="fa text-primary"></Span>
-                                        <Span :text="item.class"/>
-                                    </FormattedString>
-                                </Label>
-                                <Label class="p-b-10">
-                                    <FormattedString ios:fontFamily="system">
-                                        <Span text="   " class="fa text-primary"/>
-                                        <Span :text="item.transmission"/>
-                                        <Span text=" Transmission"/>
-                                    </FormattedString>
-                                </Label>
-                                <Label class="p-b-10">
-                                    <FormattedString ios:fontFamily="system">
-                                        <Span text="   " class="fa text-primary"/>
-                                        <Span :text="item.hasAC ? 'Yes' : 'No'"/>
-                                    </FormattedString>
-                                </Label>
-                            </StackLayout>
-                        </GridLayout>
-
+                    <StackLayout row="2" col="1" verticalAlignment="center" class="list-group-item-text">
+                        <Label class="p-b-10">
+                            <FormattedString ios:fontFamily="system">
+                                <Span text.decode="&#xf1b9;   " class="fa text-primary"></Span>
+                                <Span :text="item.class"/>
+                            </FormattedString>
+                        </Label>
+                        <Label class="p-b-10">
+                            <FormattedString ios:fontFamily="system">
+                                <Span text.decode="&#xf085;   " class="fa text-primary"/>
+                                <Span :text="item.transmission"/>
+                                <Span text=" Transmission"/>
+                            </FormattedString>
+                        </Label>
+                        <Label class="p-b-10">
+                            <FormattedString ios:fontFamily="system">
+                                <Span text.decode="&#xf2dc;   " class="fa text-primary"/>
+                                <Span :text="item.hasAC ? 'Yes' : 'No'"/>
+                            </FormattedString>
+                        </Label>
                     </StackLayout>
-                </v-template>
-            </RadListView>
-            <!--</ListView>-->
-            <ActivityIndicator v-else :busy="isLoading"/>
-        </GridLayout>
+                </GridLayout>
+            </v-template>
+        </RadListView>
+        <!--</ListView>-->
+        <ActivityIndicator v-else :busy="isLoading"/>
     </Page>
 </template>
 
@@ -73,7 +67,7 @@
         methods: {
             onItemTap(e) {
                 this.$emit("select", e.item);
-                this.$router.push(`/car-details/${e.item.name}`);
+                this.$router.push({ name: "car-details", params: { car: e.item } });
             }
         },
 

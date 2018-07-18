@@ -8,41 +8,39 @@
             </ActionItem>
         </ActionBar>
 
-        <GridLayout class="page-content">
-            <ScrollView>
-                <GridLayout rows="auto, auto, auto">
-                    <Image :src="car.imageUrl" stretch="aspectFill" height="200" class="m-b-15" />
+        <ScrollView>
+            <StackLayout>
+                <Image :src="car.imageUrl" stretch="aspectFill" height="200" class="m-b-15" />
 
-                    <StackLayout row="1" class="hr-light m-t-15 m-b-15"></StackLayout>
+                <Label row="1" class="hr-light m-t-15 m-b-15"/>
 
-                    <GridLayout row="2" rows="*, *, *, *, *, *" columns="auto,auto">
-                        <Label text="Price" class="p-l-15 p-b-10 m-r-20 text-secondary"/>
-                        <Label col="1" class="text p-b-10">
-                            <FormattedString>
-                                <Span text="€" />
-                                <Span :text="car.price" />
-                                <Span text="/day" />
-                            </FormattedString>
-                        </Label>
+                <GridLayout row="2" rows="*, *, *, *, *, *" columns="auto,auto">
+                    <Label text="Price" class="p-l-15 p-b-10 m-r-20 text-secondary"/>
+                    <Label col="1" class="text p-b-10">
+                        <FormattedString>
+                            <Span text.decode="&euro;" />
+                            <Span :text="car.price" />
+                            <Span text="/day" />
+                        </FormattedString>
+                    </Label>
 
-                        <Label text="Class" row="1" class="p-l-15 p-b-10 m-r-20 text-secondary" />
-                        <Label :text="car.class" row="1" col="1" class="text p-b-10" />
+                    <Label text="Class" row="1" class="p-l-15 p-b-10 m-r-20 text-secondary" />
+                    <Label :text="car.class" row="1" col="1" class="text p-b-10" />
 
-                        <Label text="Doors" row="2" class="p-l-15 p-b-10 m-r-20 text-secondary" />
-                        <Label :text="car.doors" row="2" col="1" class="text p-b-10" />
+                    <Label text="Doors" row="2" class="p-l-15 p-b-10 m-r-20 text-secondary" />
+                    <Label :text="car.doors" row="2" col="1" class="text p-b-10" />
 
-                        <Label text="Seats" row="3" class="p-l-15 p-b-10 m-r-20 text-secondary" />
-                        <Label :text="car.seats" row="3" col="1" class="text p-b-10" />
+                    <Label text="Seats" row="3" class="p-l-15 p-b-10 m-r-20 text-secondary" />
+                    <Label :text="car.seats" row="3" col="1" class="text p-b-10" />
 
-                        <Label text="Transmission" row="4" class="p-l-15 p-b-10 m-r-20 text-secondary" />
-                        <Label :text="car.transmission" row="4" col="1" class="text p-b-10" />
+                    <Label text="Transmission" row="4" class="p-l-15 p-b-10 m-r-20 text-secondary" />
+                    <Label :text="car.transmission" row="4" col="1" class="text p-b-10" />
 
-                        <Label text="Luggage" row="5" class="p-l-15 p-b-10 m-r-20 text-secondary" />
-                        <Label :text="car.luggage" row="5" col="1" class="text p-b-10" />
-                    </GridLayout>
+                    <Label text="Luggage" row="5" class="p-l-15 p-b-10 m-r-20 text-secondary" />
+                    <Label :text="car.luggage" row="5" col="1" class="text p-b-10" />
                 </GridLayout>
-            </ScrollView>
-        </GridLayout>
+            </StackLayout>
+        </ScrollView>
     </Page>
 </template>
 
@@ -55,7 +53,7 @@
 
         computed: {
             car() {
-                return this.$router.app && this.$router.app.car || {};
+                return this.$route.params.car || {};
             },
 
             cars() {
@@ -79,26 +77,3 @@
         }
     };
 </script>
-
-<style scoped lang="scss">
-    // Start custom common variables
-    @import '../app-variables';
-    // End custom common variables
-
-    // Custom styles
-    .list-group {
-        .list-group-item {
-            padding: 0 0 8 0;
-            background-color: $blue-10;
-
-            .list-group-item-content {
-                padding: 8 15 4 15;
-                background-color: $background-light;
-            }
-
-            .fa {
-                color: $accent-dark;
-            }
-        }
-    }
-</style>

@@ -12,82 +12,55 @@
            </ActionItem>
         </ActionBar>
 
-        <GridLayout class="page-content">
-            <ScrollView>
-                <StackLayout class="car-list">
-                    <Label text="CAR MAKE" class="car-list-odd" />
-                    <TextField :text="car.name" hint="Car make field is required"
-                        :class="{ [car.name]: true, [car.name ? 'car-list-even' : 'car-list-even invalid-text']: true }" />
+        <ScrollView>
+            <StackLayout class="car-list">
+                <Label text="CAR MAKE" class="car-list-odd" />
+                <TextField :text="car.name" hint="Car make field is required"
+                    :class="{ [car.name]: true, [car.name ? 'car-list-even' : 'car-list-even invalid-text']: true }" />
 
-                    <GridLayout rows="*" columns="*, auto" class="car-list-odd" >
-                        <Label text="PRICE PER DAY" />
-                        <Label col="1" horizontalAlignment="right" class="text-primary car-list-price">
-                            <FormattedString>
-                                <Span text="€" />
-                                <Span :text="car.price" />
-                            </FormattedString>
-                        </Label>
-                    </GridLayout>
-
-                    <Slider v-model="car.price" height="70" verticalAlignment="center" class="car-list-even" />
-                    <Label text="ADD OR REMOVE IMAGE" row="2" colSpan="2" class="car-list-odd" />
-
-                    <StackLayout class="car-list-even">
-                        <GridLayout height="80" width="80" class="thumb" horizontalAlignment="left"
-                            :backgroundImage="car.imageUrl" @tap="onImageAddRemoveTap">
-                            <GridLayout class="thumb-add"
-                                :visibility="car.imageUrl">
-                                <Label text="&#xf030;" class="fa" horizontalAlignment="center" verticalAlignment="center" />
-                            </GridLayout>
-                            <GridLayout class="thumb-remove"
-                                :visibility="car.imageUrl">
-                                <Label text="&#xf014;" class="fa" horizontalAlignment="center" verticalAlignment="center" />
-                            </GridLayout>
-                        </GridLayout>
-                        <Label :visibility="car.imageUrl" class="invalid-image" text="Image field is required" />
-                    </StackLayout>
-
-                    <Label text="CLASS" class="car-list-odd" />
-                    <GridLayout columns="*, auto" @tap="onSelectorTap" tag="class" class="car-list-even">
-                        <Label :text="car.class" />
-                        <Label text="&#xf054;" class="fa text-secondary" col="1" horizontalAlignment="center" verticalAlignment="center" />
-                    </GridLayout>
-
-                    <Label text="DOORS" class="car-list-odd" />
-                    <GridLayout columns="*, auto" @tap="onSelectorTap" tag="doors" class="car-list-even">
-                        <Label :text="car.doors" />
-                        <Label text="&#xf054;" class="fa text-secondary" col="1" horizontalAlignment="center" verticalAlignment="center" />
-                    </GridLayout>
-
-                    <Label text="SEATS" class="car-list-odd" />
-                    <GridLayout columns="*, auto" @tap="onSelectorTap" tag="seats" class="car-list-even">
-                        <Label :text="car.seats" />
-                        <Label text="&#xf054;" class="fa text-secondary" col="1" horizontalAlignment="center" verticalAlignment="center" />
-                    </GridLayout>
-
-                    <Label text="TRANSMISSION" class="car-list-odd" />
-                    <GridLayout columns="*, auto" @tap="onSelectorTap" tag="transmission" class="car-list-even">
-                        <Label :text="car.transmission" />
-                        <Label text="&#xf054;" class="fa text-secondary" col="1" horizontalAlignment="center" verticalAlignment="center" />
-                    </GridLayout>
-
-                    <GridLayout columns="*, auto" class="car-list-odd">
-                        <Label text="LUGGAGE" />
-                        <Label col="1" horizontalAlignment="right" class="text-primary">
-                            <FormattedString>
-                                <Span :text="car.luggage" />
-                                <Span text=" Bag(s)" />
-                            </FormattedString>
-                        </Label>
-                    </GridLayout>
-
-                    <Slider minValue="0" maxValue="5" height="70" v-model="car.luggage" class="car-list-even" />
-
+                <StackLayout class="car-list-odd" orientation="horizontal">
+                    <Label text="PRICE PER DAY" />
+                    <Label col="1" horizontalAlignment="right" class="text-primary car-list-price">
+                        <FormattedString>
+                            <Span text.decode="&euro;" />
+                            <Span :text="car.price" />
+                        </FormattedString>
+                    </Label>
                 </StackLayout>
-            </ScrollView>
 
-            <ActivityIndicator :busy="isUpdating" />
-        </GridLayout>
+                <Slider v-model="car.price" height="70" verticalAlignment="center" class="car-list-even" />
+                <Label text="ADD OR REMOVE IMAGE" row="2" colSpan="2" class="car-list-odd" />
+
+                <StackLayout height="80" width="80" class="thumb car-list-even" horizontalAlignment="left"
+                    :backgroundImage="car.imageUrl" @tap="onImageAddRemoveTap">
+                    <Label text.decode="&#xf030;" class="fa thumb-add" horizontalAlignment="center" verticalAlignment="center" v-show="!car.imageUrl"/>
+                    <Label text.decode="&#xf014;" class="fa thumb-remove" horizontalAlignment="center" verticalAlignment="center" v-show="car.imageUrl" />
+                </StackLayout>
+                <Label v-show="!car.imageUrl" class="invalid-image car-list-even" text="Image field is required" />
+
+                <Selector label="CLASS" v-model="car.class"></Selector>
+
+                <Selector label="DOORS" v-model="car.doors"></Selector>
+
+                <Selector label="SEATS" v-model="car.seats"></Selector>
+
+                <Selector label="TRANSMISSION" v-model="car.transmission"></Selector>
+
+                <StackLayout orientation="horizontal" class="car-list-odd">
+                    <Label text="LUGGAGE" />
+                    <Label col="1" horizontalAlignment="right" class="text-primary">
+                        <FormattedString>
+                            <Span :text="car.luggage" />
+                            <Span text=" Bag(s)" />
+                        </FormattedString>
+                    </Label>
+                </StackLayout>
+
+                <Slider minValue="0" maxValue="5" height="70" v-model="car.luggage" class="car-list-even" verticalAlignment="center" />
+
+                <ActivityIndicator :busy="isUpdating" />
+            </StackLayout>
+        </ScrollView>
     </Page>
 </template>
 
@@ -167,9 +140,10 @@
         }
     }
 
-    .thumb {
+    .page .thumb {
         background-size: cover;
         background-repeat: no-repeat;
+        padding: 0;
         font-size: 25;
         font-weight: bold;
 
@@ -184,6 +158,16 @@
         .thumb-remove {
             color: $background-light;
             background-color: $blue-20;
+        }
+    }
+
+    .list-modal-view {
+        color: $blue-dark;
+        background-color: $blue-10;
+
+        .list-modal-item {
+            vertical-align: center;
+            margin-bottom: 10;
         }
     }
 </style>

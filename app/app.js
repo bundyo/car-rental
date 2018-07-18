@@ -17,23 +17,19 @@ import "./shared/RadListView";
 
 import cars from "./shared/cars/car-service";
 
-//import { android, AndroidApplication } from 'tns-core-modules/application'
-//
-//android.on(AndroidApplication.activityBackPressedEvent, function (args) {
-// args.cancel = true;
-//
-// router.back();
-//});
-//
+import Selector from "./components/Selector";
+
+Vue.component(Selector.name, Selector);
+
 new Vue({
 
     router,
 
     // TODO: Look why v-if doesn't work in the ActionBar
     template: `
-<Frame transition="slide">
-    <router-view @select="car = $event"/>
-</Frame>`,
+        <Frame>
+            <router-view @select="car = $event"/>
+        </Frame>`,
 
     data: {
         car: [],
