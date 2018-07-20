@@ -1,11 +1,9 @@
 <template>
-    <Label>
-        <Label :text="label" class="car-list-odd" />
-        <Label @tap="onSelectorTap" tag="class" class="car-list-even">
-            <Label :text="selected" />
-            <Label text.decode="&#xf054;" class="fa text-secondary" col="1" horizontalAlignment="right" verticalAlignment="center" />
-        </Label>
-    </Label>
+    <GridLayout rows="*, *" columns="*, auto" @tap="onSelectorTap">
+        <Label row="0" col="0" colSpan="2" :text="label" class="car-list-odd" />
+        <Label row="1" col="0" :text="selected" class="car-list-even" @tap="onSelectorTap" />
+        <Label row="1" col="1" text.decode="&#xf054;" class="fa text-secondary car-list-even" @tap="onSelectorTap" />
+    </GridLayout>
 </template>
 
 <script>
@@ -17,10 +15,7 @@
             event: "select"
         },
 
-        props: {
-            text: String,
-            label: String
-        },
+        props: ["text", "label"],
 
         data() {
             return {
@@ -35,7 +30,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

@@ -103,11 +103,16 @@
         },
 
         beforeDestroy() {
+            console.log("before-destroy edit")
+        },
+
+        destroyed() {
+            console.log("destroyed edit")
         }
     };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
     // Custom common variables
     @import '../app-variables';
 
@@ -124,6 +129,11 @@
         .car-list-odd {
             background-color: $blue-10;
             color: $blue-50;
+        }
+
+        .text-secondary {
+            horizontal-alignment: right;
+            vertical-alignment: center;
         }
 
         .car-list-price {

@@ -74,6 +74,11 @@
         },
 
         beforeDestroy() {
+            console.log("before-destroy details")
+        },
+
+        destroyed() {
+            console.log("destroyed details")
         }
     };
 </script>

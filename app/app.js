@@ -25,7 +25,6 @@ new Vue({
 
     router,
 
-    // TODO: Look why v-if doesn't work in the ActionBar
     template: `
         <Frame>
             <router-view @select="car = $event"/>

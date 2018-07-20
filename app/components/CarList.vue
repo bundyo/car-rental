@@ -75,6 +75,11 @@
         },
 
         beforeDestroy() {
+            console.log("before-destroy list")
+        },
+
+        destroyed() {
+            console.log("destroyed list")
         }
     };
 </script>
