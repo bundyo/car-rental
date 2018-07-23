@@ -2,10 +2,10 @@
     <Page class="page">
         <ActionBar class="action-bar">
             <Label class="action-bar-title" :text="'Edit ' + car.name" horizontalAlignment="center" />
-           <ActionItem @tap="onCancelButtonTap" ios.position="left" android.position="left">
+           <ActionItem @tap="onCancelButtonTap" ios:position="left" android:position="left">
                <Label text="Cancel" verticalAlignment="center" class="action-item" />
            </ActionItem>
-           <ActionItem ios.position="right" android.position="right">
+           <ActionItem ios:position="right" android:position="right">
                <Label text="Done" class="action-item" verticalAlignment="center" @tap="onDoneButtonTap"
                    :isEnabled="car.isModelValid"
                    :isUserInteractionEnabled="car.isModelValid" />
