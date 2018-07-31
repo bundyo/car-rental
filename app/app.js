@@ -36,8 +36,6 @@ new Vue({
     },
 
     created() {
-        //this.$router.setPageTransition("slide");
-
         firebase.init(config).then(
             instance => {
                 console.log("firebase.init done");
