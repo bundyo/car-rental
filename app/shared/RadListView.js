@@ -1,4 +1,4 @@
-const Vue = require("nativescript-vue").default;
+const Vue = require("nativescript-vue");
 
 const component = {
     name: "RadListView",
@@ -44,12 +44,11 @@ const component = {
         const listeners = Object.assign({}, this.$listeners);
         delete listeners.itemTap;
         this.listeners = listeners;
+
+        this.getItemContext = getItemContext.bind(this);
     },
 
     mounted() {
-        this.getItemContext = (item, index) =>
-            getItemContext(item, index, this.$props["+alias"], this.$props["+index"]);
-
         this.$refs.radlistView.setAttribute("items", this.items);
         this.$refs.radlistView.setAttribute(
             "_itemTemplatesInternal",
@@ -127,7 +126,7 @@ const VUE_VIEW = "__vueVNodeRef__";
 
 module.exports = component;
 
-function getItemContext(item, index, alias, index_alias) {
+function getItemContext(item, index, alias = this.$props["+alias"], index_alias = this.$props["+index"]) {
     return {
         [alias]: item,
         [index_alias || "$index"]: index,
