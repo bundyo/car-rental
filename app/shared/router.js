@@ -1,13 +1,14 @@
-import { Vue, Router, History } from "nativescript-vue";
+import { Vue, mode } from "nativescript-vue";
+import VueRouter from "vue-router"
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
 import CarList from "../components/CarList";
 import CarDetails from "../components/CarDetails";
 import CarDetailsEdit from "../components/CarDetailsEdit";
 
-const router = new Router({
-    mode: { History },
+const router = new VueRouter({
+    mode,
     routes: [
         {
             name: "root",
