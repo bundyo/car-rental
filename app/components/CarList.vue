@@ -1,5 +1,5 @@
 <template>
-    <Page class="page">
+    <Page class="page" @back="back">
         <ActionBar class="action-bar">
             <Label class="action-bar-title" text="Car List" horizontalAlignment="center" />
         </ActionBar>
@@ -68,6 +68,10 @@
             onItemTap(e) {
                 this.$emit("select", e.item);
                 this.$router.push({ name: "car-details", params: { car: e.item } });
+            },
+
+            back() {
+                console.log("back");
             }
         },
 

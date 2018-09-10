@@ -5,6 +5,13 @@ import "./styles.scss";
 
 import firebase from "nativescript-plugin-firebase";
 import config from "./shared/firebase-config";
+import { android } from 'tns-core-modules/application'
+
+android.on('activityBackPressed', args => {
+  //args.handled = true;
+
+  console.log("test");
+});
 
 import Vue from "nativescript-vue";
 import router from "./shared/router";
