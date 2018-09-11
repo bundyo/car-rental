@@ -100,14 +100,6 @@
         },
 
         created() {
-        },
-
-        beforeDestroy() {
-            console.log("before-destroy edit")
-        },
-
-        destroyed() {
-            console.log("destroyed edit")
         }
     };
 </script>
