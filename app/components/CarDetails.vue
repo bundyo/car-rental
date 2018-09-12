@@ -54,20 +54,12 @@
         computed: {
             car() {
                 return this.$route.params.car || {};
-            },
-
-            cars() {
-                return this.$router.app && this.$router.app.cars || [];
-            },
-
-            isLoading() {
-                return !this.cars.length;
             }
         },
 
         methods: {
             onEditButtonTap() {
-                this.$router.push(`/car-details-edit/${this.car.name}`, {
+                this.$router.push({ name: "car-details-edit", params: { car: this.car } }, {
                     transition: "slideTop"
                 });
             }

@@ -1,22 +1,18 @@
-import "./styles.scss";
-
 import firebase from "nativescript-plugin-firebase";
 import config from "./shared/firebase-config";
 
 import Vue from "nativescript-vue";
 import router from "./shared/router";
 
+import "./styles.scss";
+
 // Uncommment the following to see NativeScript-Vue output logs
-Vue.config.silent = false;
+Vue.config.silent = true;
 Vue.config.debug = true;
 
 import "./shared/RadListView";
 
 import cars from "./shared/cars/car-service";
-
-import Selector from "./components/Selector";
-
-Vue.component(Selector.name, Selector);
 
 new Vue({
 

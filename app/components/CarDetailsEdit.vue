@@ -38,13 +38,13 @@
                 </StackLayout>
                 <Label v-show="!car.imageUrl" class="invalid-image car-list-even" text="Image field is required" />
 
-                <Selector label="CLASS" v-model="car.class"></Selector>
+                <Selector type="class" v-model="car.class"></Selector>
 
-                <Selector label="DOORS" v-model="car.doors"></Selector>
+                <Selector type="doors" v-model="car.doors"></Selector>
 
-                <Selector label="SEATS" v-model="car.seats"></Selector>
+                <Selector type="seats" v-model="car.seats"></Selector>
 
-                <Selector label="TRANSMISSION" v-model="car.transmission"></Selector>
+                <Selector type="transmission" v-model="car.transmission"></Selector>
 
                 <StackLayout orientation="horizontal" class="car-list-odd">
                     <Label text="LUGGAGE" />
@@ -57,15 +57,19 @@
                 </StackLayout>
 
                 <Slider minValue="0" maxValue="5" height="70" v-model="car.luggage" class="car-list-even" verticalAlignment="center" />
-
-                <ActivityIndicator :busy="isUpdating" />
             </StackLayout>
         </ScrollView>
     </Page>
 </template>
 
 <script>
+    import Selector from "./Selector";
+
     export default {
+        components: {
+            [Selector.name]: Selector
+        },
+
         data() {
             return {
             };
@@ -73,11 +77,7 @@
 
         computed: {
             car() {
-                return this.$router.app && this.$router.app.car || {};
-            },
-
-            isUpdating() {
-                return false;
+                return this.$route.params.car || {};
             }
         },
 
@@ -95,7 +95,7 @@
             },
 
             onDoneButtonTap() {
-
+                this.$router.push({ name: "car-details", params: { car: this.car } });
             }
         },
 

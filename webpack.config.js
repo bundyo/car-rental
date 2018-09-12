@@ -1,18 +1,17 @@
 const { relative, resolve, sep } = require("path");
 
 const webpack = require("webpack");
+const nsWebpack = require("nativescript-dev-webpack");
+const nativescriptTarget = require("nativescript-dev-webpack/nativescript-target");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const { NativeScriptWorkerPlugin } = require("nativescript-worker-loader/NativeScriptWorkerPlugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const NsVueTemplateCompiler = require("nativescript-vue-template-compiler");
-
-const nsWebpack = require("nativescript-dev-webpack");
-const nativescriptTarget = require("nativescript-dev-webpack/nativescript-target");
-const { NativeScriptWorkerPlugin } = require("nativescript-worker-loader/NativeScriptWorkerPlugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = env => {
     // Add your custom Activities, Services and other android app components here.
@@ -44,6 +43,8 @@ module.exports = env => {
         snapshot, // --env.snapshot
         production, // --env.production
         report, // --env.report
+        sourceMap, // --env.sourceMap
+        hmr, // --env.hmr
     } = env;
 
     const mode = production ? "production" : "development";
@@ -88,6 +89,7 @@ module.exports = env => {
             alias: {
                 '~': appFullPath,
                 '@': appFullPath,
+                'vue': 'nativescript-vue'
             },
             // don't resolve symlinks to symlinked modules
             symlinks: false
@@ -104,7 +106,7 @@ module.exports = env => {
             "fs": "empty",
             "__dirname": false,
         },
-        devtool: "none",
+        devtool: sourceMap ? "inline-source-map" : "none",
         optimization: {
             splitChunks: {
                 cacheGroups: {
@@ -147,36 +149,44 @@ module.exports = env => {
                         // Require all Android app components
                         platform === "android" && {
                             loader: "nativescript-dev-webpack/android-app-components-loader",
-                            options: { modules: appComponents },
+                            options: { modules: appComponents }
                         },
 
                         {
                             loader: "nativescript-dev-webpack/bundle-config-loader",
                             options: {
-                                registerPages: true, // applicable only for non-angular apps
+	                                registerPages: true, // applicable only for non-angular apps
                                 loadCss: !snapshot, // load the application css if in debug mode
-                            },
+                            }
                         },
                     ].filter(loader => Boolean(loader)),
                 },
+
+                {
+                    // TODO: Remove the rule once https://github.com/vuejs/vue-hot-reload-api/pull/70 is accepted
+                    test: /vue-hot-reload-api\/dist\/index\.js$/,
+                    use: "../vue-hot-reload-api-patcher"
+                },
+
                 {
                     test: /\.css$/,
                     use: [
+                        'css-hot-loader',
+                        'nativescript-dev-webpack/style-hot-loader',
                         MiniCssExtractPlugin.loader,
                         { loader: "css-loader", options: { minimize: false, url: false } },
                     ],
                 },
+
                 {
                     test: /\.scss$/,
                     use: [
+                        'css-hot-loader',
+                        'nativescript-dev-webpack/style-hot-loader',
                         MiniCssExtractPlugin.loader,
                         { loader: "css-loader", options: { minimize: false, url: false } },
                         "sass-loader",
                     ],
-                },
-                {
-                    test: /\.js$/,
-                    loader: 'babel-loader',
                 },
                 {
                     test: /\.vue$/,
@@ -188,7 +198,6 @@ module.exports = env => {
             ],
         },
         plugins: [
-            // ... Vue Loader plugin omitted
             new MiniCssExtractPlugin({
                 filename: `app.${platform}.css`,
             }),
@@ -197,7 +206,8 @@ module.exports = env => {
             // Define useful constants like TNS_WEBPACK
             new webpack.DefinePlugin({
                 "global.TNS_WEBPACK": "true",
-                "TNS_ENV": JSON.stringify(mode)
+                "TNS_ENV": JSON.stringify(mode),
+                "process": undefined,
             }),
             // Remove all files from the out dir.
             new CleanWebpackPlugin([ `${dist}/**/*` ]),
@@ -205,7 +215,7 @@ module.exports = env => {
             new CopyWebpackPlugin([{
                 from: `${appResourcesFullPath}/${appResourcesPlatformDir}`,
                 to: `${dist}/App_Resources/${appResourcesPlatformDir}`,
-                context: projectRoot,
+                context: projectRoot
             }]),
             // Copy assets to out dir. Add your own globs as needed.
             new CopyWebpackPlugin([
@@ -251,6 +261,11 @@ module.exports = env => {
             webpackConfig: config,
         }));
     }
+
+	    if (hmr) {
+	        config.plugins.push(new webpack.HotModuleReplacementPlugin());
+	    }
+
 
     return config;
 };

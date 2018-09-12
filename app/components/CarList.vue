@@ -4,7 +4,6 @@
             <Label class="action-bar-title" text="Car List" horizontalAlignment="center" />
         </ActionBar>
 
-        <!--<ListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap">-->
         <RadListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap" class="list-group">
             <ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>
             <v-template>
@@ -20,7 +19,6 @@
 
                     <Label row="1" class="hr-light m-t-5 m-b-5" colSpan="2"/>
 
-                    <!--<Label row="2" :text="item.imageUrl" class="text-primary font-weight-bold"/>-->
                     <Image row="2" :src="item.imageUrl" stretch="aspectFill" height="120" class="m-r-20" loadMode="async"/>
 
                     <StackLayout row="2" col="1" verticalAlignment="center" class="list-group-item-text">
@@ -47,7 +45,6 @@
                 </GridLayout>
             </v-template>
         </RadListView>
-        <!--</ListView>-->
         <ActivityIndicator v-else :busy="isLoading"/>
     </Page>
 </template>
