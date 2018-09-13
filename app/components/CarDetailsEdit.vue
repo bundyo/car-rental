@@ -162,14 +162,4 @@
             background-color: $blue-20;
         }
     }
-
-    .list-modal-view {
-        color: $blue-dark;
-        background-color: $blue-10;
-
-        .list-modal-item {
-            vertical-align: center;
-            margin-bottom: 10;
-        }
-    }
 </style>

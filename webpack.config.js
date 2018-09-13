@@ -155,7 +155,6 @@ module.exports = env => {
                         {
                             loader: "nativescript-dev-webpack/bundle-config-loader",
                             options: {
-	                                registerPages: true, // applicable only for non-angular apps
                                 loadCss: !snapshot, // load the application css if in debug mode
                             }
                         },
@@ -199,7 +198,7 @@ module.exports = env => {
         },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: `app.${platform}.css`,
+                filename: `app.css`,
             }),
             // make sure to include the plugin!
             new VueLoaderPlugin(),
