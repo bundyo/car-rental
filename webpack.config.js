@@ -170,8 +170,8 @@ module.exports = env => {
                 {
                     test: /\.css$/,
                     use: [
-                        'css-hot-loader',
                         'nativescript-dev-webpack/style-hot-loader',
+                        'css-hot-loader',
                         MiniCssExtractPlugin.loader,
                         { loader: "css-loader", options: { minimize: false, url: false } },
                     ],
@@ -180,8 +180,8 @@ module.exports = env => {
                 {
                     test: /\.scss$/,
                     use: [
-                        'css-hot-loader',
                         'nativescript-dev-webpack/style-hot-loader',
+                        'css-hot-loader',
                         MiniCssExtractPlugin.loader,
                         { loader: "css-loader", options: { minimize: false, url: false } },
                         "sass-loader",
