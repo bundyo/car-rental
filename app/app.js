@@ -6,10 +6,6 @@ import router from "./shared/router";
 
 import "./styles.scss";
 
-// Uncommment the following to see NativeScript-Vue output logs
-Vue.config.silent = true;
-Vue.config.debug = true;
-
 import "./shared/RadListView";
 
 import cars from "./shared/cars/car-service";
