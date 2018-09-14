@@ -1,31 +1,29 @@
 <template>
-    <Page>
-        <ActionBar backgroundColor="red" title="Modal page" icon="" class="list-modal-header"></ActionBar>
-        <GridLayout rows="*, auto" ios:class="list-modal-view -ios" android:class="list-modal-view -android">
-            <RadListView row="0" :items="source" @itemTap="$modal.close($event.item.value)" selectionBehavior="Press" class="list-modal-list">
-                <v-template>
-                    <GridLayout>
-                        <GridLayout android:visibility="collapsed" columns="*,auto" class="list-modal-item">
-                            <Label :text="item.value"></Label>
-                            <Label col="1" text.decode="&#xf00c;"
-                                class="fa list-modal-view-check"
-                                v-show="item.selected"></Label>
-                        </GridLayout>
-                        <GridLayout ios:visibility="collapsed" columns="auto,*" class="list-modal-item">
-                            <Label text.decode="&#xf10c;"
-                                class="fa list-modal-view-icon" verticalAlignment="center"
-                                v-show="item.selected"></Label>
-                            <Label text.decode="&#xf192;"
-                                class="fa list-modal-view-icon selected" verticalAlignment="center"
-                                v-show="item.selected"></Label>
-                            <Label col="1" :text="item.value"></Label>
-                        </GridLayout>
+    <GridLayout rows="auto, *, auto" verticalAlignment="top" ios:class="list-modal-view -ios" android:class="list-modal-view -android">
+        <Label :text="title" class="h3 list-modal-header"></Label>
+        <RadListView row="1" :items="source" @itemTap="itemSelected" selectionBehavior="Press" class="list-modal-list">
+            <v-template>
+                <GridLayout>
+                    <GridLayout android:visibility="collapsed" columns="*,auto" class="list-modal-item">
+                        <Label :text="item.value"></Label>
+                        <Label col="1" text.decode="&#xf00c;"
+                            class="fa list-modal-view-check"
+                            v-show="item.value === selectedValue"></Label>
                     </GridLayout>
-                </v-template>
-            </RadListView>
-            <Button class="btn btn-outline" row="1" text="CANCEL" ios:visibility="collapsed" horizontalAlignment="right" @tap="$modal.close()"></Button>
-        </GridLayout>
-    </Page>
+                    <GridLayout ios:visibility="collapsed" columns="auto,*" class="list-modal-item">
+                        <Label text.decode="&#xf10c;"
+                            class="fa list-modal-view-icon" verticalAlignment="center"
+                            v-show="item.value !== selectedValue"></Label>
+                        <Label text.decode="&#xf192;"
+                            class="fa list-modal-view-icon selected" verticalAlignment="center"
+                            v-show="item.value === selectedValue"></Label>
+                        <Label col="1" :text="item.value"></Label>
+                    </GridLayout>
+                </GridLayout>
+            </v-template>
+        </RadListView>
+        <Button class="btn btn-outline" row="3" text="CANCEL" ios:visibility="collapsed" horizontalAlignment="right" @tap="$modal.close()"></Button>
+    </GridLayout>
 </template>
 
 <script>
@@ -36,12 +34,17 @@
 
         data() {
             return {
-                source: this.items.map((value, index) => ({ index, value }))
+                source: this.items.map((value, index) => ({ index, value })),
+                selectedValue: this.selected
             };
         },
 
-        mounted() {
-            console.log(this.$el.nativeView.style.color);
+        methods: {
+            itemSelected(e) {
+                this.selectedValue = e.item.value;
+
+                this.$modal.close(this.selectedValue);
+            }
         }
     }
 </script>
@@ -50,19 +53,10 @@
     // Custom common variables
     @import '../app-variables';
 
-    .list-modal-header {
-        color: red;
-    }
-
     // Custom styles
-    .list-modal-view {
-        color: $blue-dark;
-        background-color: $blue-10;
-
-        .list-modal-item {
-            vertical-align: center;
-            margin-bottom: 10;
-        }
+    .list-modal-item {
+        padding: 10 15;
+        vertical-align: center;
     }
 
     .list-modal-view.-ios {
@@ -70,7 +64,6 @@
         padding-top: 20;
 
         .list-modal-item {
-            padding: 10 15;
             margin: 0;
             border-bottom-width: $border-width;
             border-color: $blue-20;
@@ -91,10 +84,6 @@
 
         .list-modal-header {
             padding: 15;
-        }
-
-        .list-modal-item {
-            padding: 0 15 10 15;
         }
 
         .list-modal-view-icon {

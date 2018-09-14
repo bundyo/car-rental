@@ -18,11 +18,11 @@
             event: "select"
         },
 
-        props: ["type", "label"],
+        props: ["type", "label", "text"],
 
         data() {
             return {
-                selected: null
+                selected: this.text
             }
         },
 
@@ -48,8 +48,10 @@
             }
         },
 
-        created() {
-            this.selected = this.text;
+        watch: {
+            text(value) {
+                this.selected = value;
+            }
         }
     }
 </script>
