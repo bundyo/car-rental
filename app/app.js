@@ -2,7 +2,6 @@ import firebase from "nativescript-plugin-firebase";
 import config from "./shared/firebase-config";
 
 import Vue from "nativescript-vue";
-import router from "./shared/router";
 
 import "./styles.scss";
 
@@ -10,17 +9,24 @@ import "./shared/RadListView";
 
 import cars from "./shared/cars/car-service";
 
-new Vue({
+import CarList from "./components/CarList";
+import CarDetails from "./components/CarDetails";
+import CarDetailsEdit from "./components/CarDetailsEdit";
 
-    router,
+new Vue({
 
     template: `
         <Frame>
-            <router-view @select="car = $event"/>
+            <CarList :cars="cars" />
         </Frame>`,
 
+    components: {
+        CarList,
+        CarDetails,
+        CarDetailsEdit
+    },
+
     data: {
-        car: [],
         cars: []
     },
 

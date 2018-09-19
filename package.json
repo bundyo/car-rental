@@ -19,9 +19,8 @@
     "nativescript-plugin-firebase": "^6.7.0",
     "nativescript-theme-core": "^1.0.4",
     "nativescript-ui-listview": "^3.6.1",
-    "nativescript-vue": "file:../nativescript-vue/",
-    "tns-core-modules": "^4.2.0",
-    "vue-router": "file:../vue-router/"
+    "nativescript-vue": "^2.0.0-beta.1",
+    "tns-core-modules": "^4.2.0"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.19",

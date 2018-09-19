@@ -4,7 +4,7 @@
             <Label class="action-bar-title" text="Car List" horizontalAlignment="center" />
         </ActionBar>
 
-        <RadListView v-if="!isLoading" for="item in cars" @itemTap="onItemTap" class="list-group">
+        <RadListView v-if="!isLoading" for="item in carList" @itemTap="onItemTap" class="list-group">
             <ListViewLinearLayout v-tkListViewLayout scrollDirection="Vertical"/>
             <v-template>
                 <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
@@ -23,20 +23,20 @@
 
                     <StackLayout row="2" col="1" verticalAlignment="center" class="list-group-item-text">
                         <Label class="p-b-10">
-                            <FormattedString ios:fontFamily="system">
+                            <FormattedString ios.fontFamily="system">
                                 <Span text.decode="&#xf1b9;   " class="fa text-primary"></Span>
                                 <Span :text="item.class"/>
                             </FormattedString>
                         </Label>
                         <Label class="p-b-10">
-                            <FormattedString ios:fontFamily="system">
+                            <FormattedString ios.fontFamily="system">
                                 <Span text.decode="&#xf085;   " class="fa text-primary"/>
                                 <Span :text="item.transmission"/>
                                 <Span text=" Transmission"/>
                             </FormattedString>
                         </Label>
                         <Label class="p-b-10">
-                            <FormattedString ios:fontFamily="system">
+                            <FormattedString ios.fontFamily="system">
                                 <Span text.decode="&#xf2dc;   " class="fa text-primary"/>
                                 <Span :text="item.hasAC ? 'Yes' : 'No'"/>
                             </FormattedString>
@@ -50,21 +50,25 @@
 </template>
 
 <script>
+    import CarDetails from "../components/CarDetails";
+
     export default {
+        props: ["cars"],
+
         computed: {
-            cars() {
-                return this.$router.app && this.$router.app.cars || [];
+            carList() {
+                return this.cars;
             },
 
             isLoading() {
-                return !this.cars.length;
+                return !this.carList.length;
             }
         },
 
         methods: {
             onItemTap(e) {
                 this.$emit("select", e.item);
-                this.$router.push({ name: "car-details", params: { car: e.item } });
+                this.$navigateTo(CarDetails, { props: { car: e.item } });
             }
         }
     };

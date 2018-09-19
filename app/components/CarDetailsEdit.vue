@@ -1,57 +1,57 @@
 <template>
     <Page class="page">
         <ActionBar class="action-bar">
-            <Label class="action-bar-title" :text="'Edit ' + car.name" horizontalAlignment="center" />
-           <ActionItem @tap="onCancelButtonTap" ios:position="left" android:position="left">
+            <Label class="action-bar-title" :text="'Edit ' + carData.name" horizontalAlignment="center" />
+           <ActionItem @tap="onCancelButtonTap" position="left">
                <Label text="Cancel" verticalAlignment="center" class="action-item" />
            </ActionItem>
-           <ActionItem ios:position="right" android:position="right">
+           <ActionItem position="right">
                <Label text="Done" class="action-item" verticalAlignment="center" @tap="onDoneButtonTap"
-                   :isEnabled="car.isModelValid"
-                   :isUserInteractionEnabled="car.isModelValid" />
+                   :isEnabled="isModelValid"
+                   :isUserInteractionEnabled="isModelValid" />
            </ActionItem>
         </ActionBar>
 
-        <GridLayout class="page page-content">
+        <GridLayout class="page">
             <ScrollView>
                 <StackLayout class="car-list">
                     <Label text="CAR MAKE" class="car-list-odd" />
-                    <TextField :text="car.name" hint="Car make field is required"
-                        :class="{ [car.name]: true, [car.name ? 'car-list-even' : 'car-list-even invalid-text']: true }" />
+                    <TextField :text="carData.name" hint="Car make field is required"
+                        :class="{ [carData.name]: true, [carData.name ? 'car-list-even' : 'car-list-even invalid-text']: true }" />
 
                     <StackLayout class="car-list-odd" orientation="horizontal">
                         <Label text="PRICE PER DAY" />
                         <Label col="1" horizontalAlignment="right" class="text-primary car-list-price">
                             <FormattedString>
                                 <Span text.decode="&euro;" />
-                                <Span :text="car.price" />
+                                <Span :text="carData.price" />
                             </FormattedString>
                         </Label>
                     </StackLayout>
 
-                    <Slider v-model="car.price" height="70" verticalAlignment="center" class="car-list-even" />
+                    <Slider v-model="carData.price" height="70" verticalAlignment="center" class="car-list-even" />
 
-                    <AddRemoveImage :image-url="car.imageUrl" @select="isCarImageDirty = true"></AddRemoveImage>
+                    <AddRemoveImage v-model="carData.imageUrl" @select="isCarImageDirty = true"></AddRemoveImage>
 
-                    <Selector type="class" v-model="car.class"></Selector>
+                    <Selector type="class" v-model="carData.class"></Selector>
 
-                    <Selector type="doors" v-model="car.doors"></Selector>
+                    <Selector type="doors" v-model="carData.doors"></Selector>
 
-                    <Selector type="seats" v-model="car.seats"></Selector>
+                    <Selector type="seats" v-model="carData.seats"></Selector>
 
-                    <Selector type="transmission" v-model="car.transmission"></Selector>
+                    <Selector type="transmission" v-model="carData.transmission"></Selector>
 
                     <GridLayout orientation="horizontal" class="car-list-odd">
                         <Label text="LUGGAGE" />
                         <Label col="1" horizontalAlignment="right" class="text-primary">
                             <FormattedString>
-                                <Span :text="car.luggage" />
+                                <Span :text="carData.luggage" />
                                 <Span text=" Bag(s)" />
                             </FormattedString>
                         </Label>
                     </GridLayout>
 
-                    <Slider minValue="0" maxValue="5" height="70" v-model="car.luggage" class="car-list-even" verticalAlignment="center" />
+                    <Slider minValue="0" maxValue="5" height="70" v-model="carData.luggage" class="car-list-even" verticalAlignment="center" />
                 </StackLayout>
             </ScrollView>
 
@@ -63,6 +63,7 @@
 <script>
     import { alert } from "ui/dialogs";
     import carService from "~/shared/cars/car-service";
+    import CarDetails from "../components/CarDetails";
     import Selector from "./Selector";
     import AddRemoveImage from "./AddRemoveImage";
 
@@ -72,6 +73,8 @@
             Selector
         },
 
+        props: ["car"],
+
         data() {
             return {
                 isCarImageDirty: false,
@@ -80,14 +83,18 @@
         },
 
         computed: {
-            car() {
-                return this.$route.params.car || {};
+            isModelValid() {
+                return !!this.carData.name && !!this.carData.imageUrl;
+            },
+
+            carData() {
+                return this.car || {};
             }
         },
 
         methods: {
             onCancelButtonTap() {
-                this.$router.back();
+                this.$navigateBack();
             },
 
             onDoneButtonTap() {
@@ -101,28 +108,28 @@
                 let queue = Promise.resolve();
                 this.isUpdating = true;
 
-                if (this.isCarImageDirty && this.car.imageUrl) {
+                if (this.isCarImageDirty && this.carData.imageUrl) {
                     queue = queue
-                        .then(() => carService.uploadImage(this.car.imageStoragePath, this.car.imageUrl))
+                        .then(() => carService.uploadImage(this.carData.imageStoragePath, this.carData.imageUrl))
                         .then((uploadedFile) => {
-                            this.car.imageUrl = uploadedFile.url;
+                            this.carData.imageUrl = uploadedFile.url;
                         });
                 }
 
-                queue.then(() => carService.update(this.car))
+                queue.then(() => carService.update(this.carData))
                     .then(() => {
                         this.isUpdating = false;
                         this.isCarImageDirty = false;
 
-                        this.$router.replace({
-                            name: "car-details",
-                            params: { car: this.car },
-                            transition: {
-                                name: "slideBottom",
-                                duration: 200,
-                                curve: "ease"
-                            }
-                        });
+                    this.$navigateTo(CarDetails, {
+                        props: { car: this.carData },
+                        backstackVisible: false,
+                        transition: {
+                            name: "slideBottom",
+                            duration: 200,
+                            curve: "ease"
+                        }
+                    });
                     })
                     .catch((errorMessage) => {
                         this.isUpdating = false;
@@ -139,9 +146,9 @@
                     message: `Check out the "Firebase database setup" section in the readme file to make it editable.`,
                     okButtonText: "Ok"
                 }).then(() => {
-                    this.$router.replace({
-                        name: "car-details",
-                        params: { car: this.car },
+                    this.$navigateTo(CarDetails, {
+                        props: { car: this.carData },
+                        backstackVisible: false,
                         transition: {
                             name: "slideBottom",
                             duration: 200,
@@ -150,9 +157,6 @@
                     });
                 });
             }
-        },
-
-        created() {
         }
     };
 </script>

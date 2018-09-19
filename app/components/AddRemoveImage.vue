@@ -1,14 +1,14 @@
 <template>
-    <GridLayout rows="auto, *">
-        <Label text="ADD OR REMOVE IMAGE" colSpan="2" class="car-list-odd" />
+    <GridLayout rows="auto, *" columns="auto, *">
+        <Label row="0" col="0" text="ADD OR REMOVE IMAGE" colSpan="2" class="car-list-odd" />
 
-        <GridLayout v-if="imageUrl" row="1" height="80" width="80" class="thumb car-list-even" horizontalAlignment="left"
+        <GridLayout row="1" col="0" height="80" width="80" class="thumb car-list-even" horizontalAlignment="left"
                     :backgroundImage="selectedImage" @tap="onImageAddRemoveTap">
             <Label text.decode="&#xf030;" class="fa thumb-add" v-show="!selectedImage"/>
             <Label text.decode="&#xf014;" class="fa thumb-remove" v-show="selectedImage" />
         </GridLayout>
 
-        <Label v-else row="1" class="invalid-image car-list-even" text="Image field is required" />
+        <Label v-if="!imageUrl" row="1" col="1" class="invalid-image" verticalAlignment="middle" text="Image field is required" />
     </GridLayout>
 </template>
 
@@ -67,15 +67,17 @@
             },
 
             handleImageChange(source) {
-                if (!source) {
-                    return this.selectedImage = null;
+                if (source) {
+                    const tempImagePath = path.join(this.imageTempFolder.path, `${Date.now()}.jpg`);
+
+                    if (source.saveToFile(tempImagePath, "jpeg")) {
+                        this.selectedImage = tempImagePath;
+                    }
+                } else {
+                    this.selectedImage = null;
                 }
 
-                const tempImagePath = path.join(this.imageTempFolder.path, `${Date.now()}.jpg`);
-
-                if (source.saveToFile(tempImagePath, "jpeg")) {
-                    this.selectedImage = tempImagePath;
-                }
+                this.$emit("select", this.selectedImage);
             }
         },
 
@@ -117,5 +119,9 @@
             color: $background-light;
             background-color: $blue-20;
         }
+    }
+
+    .invalid-image {
+        margin-left: 10;
     }
 </style>
