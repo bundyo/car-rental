@@ -1,34 +1,38 @@
-// Currently required for the app to work.
-// Can be moved to webpack config once upgraded to 4.x
-import "./vendor";
-import "./styles.scss";
-//import Frame from "tns-core-modules/ui/frame";
-
 import firebase from "nativescript-plugin-firebase";
 import config from "./shared/firebase-config";
 
 import Vue from "nativescript-vue";
-import router from "./shared/router";
 
-// Uncommment the following to see NativeScript-Vue output logs
-Vue.config.silent = false;
-Vue.config.debug = true;
+import RadListView from "nativescript-ui-listview/vue";
 
-//Vue.component("RadListView", import("./shared/RadListView"));
+Vue.use(RadListView);
+
+import "./styles.scss";
 
 import cars from "./shared/cars/car-service";
 
+import CarList from "./components/CarList";
+import CarDetails from "./components/CarDetails";
+import CarDetailsEdit from "./components/CarDetailsEdit";
+
 new Vue({
 
-    router,
+    template: `
+        <Frame>
+            <CarList :cars="cars" />
+        </Frame>`,
+
+    components: {
+        CarList,
+        CarDetails,
+        CarDetailsEdit
+    },
 
     data: {
         cars: []
     },
 
     created() {
-        this.$router.setPageTransition("slide");
-
         firebase.init(config).then(
             instance => {
                 console.log("firebase.init done");
@@ -42,5 +46,4 @@ new Vue({
             }
         );
     }
-
 }).$start();
