@@ -15,12 +15,12 @@
     }
   },
   "dependencies": {
-    "nativescript-imagepicker": "^6.0.3",
-    "nativescript-plugin-firebase": "^6.7.0",
+    "nativescript-imagepicker": "^6.0.4",
+    "nativescript-plugin-firebase": "^6.8.1",
     "nativescript-theme-core": "^1.0.4",
-    "nativescript-ui-listview": "^3.6.1",
-    "nativescript-vue": "^2.0.0-beta.1",
-    "tns-core-modules": "^4.2.0"
+    "nativescript-ui-listview": "^3.7.0",
+    "nativescript-vue": "^2.0.0-rc.0",
+    "tns-core-modules": "^4.2.1"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.19",

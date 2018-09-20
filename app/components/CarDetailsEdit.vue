@@ -63,7 +63,7 @@
 <script>
     import { alert } from "ui/dialogs";
     import carService from "~/shared/cars/car-service";
-    import CarDetails from "../components/CarDetails";
+    import CarList from "./CarList";
     import Selector from "./Selector";
     import AddRemoveImage from "./AddRemoveImage";
 
@@ -121,9 +121,9 @@
                         this.isUpdating = false;
                         this.isCarImageDirty = false;
 
-                    this.$navigateTo(CarDetails, {
-                        props: { car: this.carData },
-                        backstackVisible: false,
+                    this.$navigateTo(CarList, {
+                        animated: true,
+                        clearHistory: true,
                         transition: {
                             name: "slideBottom",
                             duration: 200,
@@ -146,9 +146,9 @@
                     message: `Check out the "Firebase database setup" section in the readme file to make it editable.`,
                     okButtonText: "Ok"
                 }).then(() => {
-                    this.$navigateTo(CarDetails, {
-                        props: { car: this.carData },
-                        backstackVisible: false,
+                    this.$navigateTo(CarList, {
+                        animated: true,
+                        clearHistory: true,
                         transition: {
                             name: "slideBottom",
                             duration: 200,

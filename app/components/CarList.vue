@@ -50,14 +50,12 @@
 </template>
 
 <script>
-    import CarDetails from "../components/CarDetails";
+    import CarDetails from "./CarDetails";
 
     export default {
-        props: ["cars"],
-
         computed: {
             carList() {
-                return this.cars;
+                return this.$root.cars;
             },
 
             isLoading() {

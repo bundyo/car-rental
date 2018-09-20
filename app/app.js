@@ -3,9 +3,11 @@ import config from "./shared/firebase-config";
 
 import Vue from "nativescript-vue";
 
-import "./styles.scss";
+import RadListView from "nativescript-ui-listview/vue";
 
-import "./shared/RadListView";
+Vue.use(RadListView);
+
+import "./styles.scss";
 
 import cars from "./shared/cars/car-service";
 

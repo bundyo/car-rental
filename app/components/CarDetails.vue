@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import CarDetailsEdit from "../components/CarDetailsEdit";
+    import CarDetailsEdit from "./CarDetailsEdit";
 
     export default {
         props: ["car"],
